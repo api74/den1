@@ -1,0 +1,281 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>День 1 · тёплая база</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap">
+<style>
+/* Layout: дорожная карта партнёра, одна колонка 860px, остановки по времени, сообщения с кнопкой «Скопировать» */
+:root{
+  color-scheme: dark;
+  --bg:#04201A; --band:#062A21; --line:#0E3A2E;
+  --card:#08302A; --card-line:#14473A;
+  --gold:#F2C94C; --gold-soft:#F7D774; --gold-deep:#C8932B; --gold-bg:#2A2410;
+  --mint:#5FE3C8; --mint-bg:#0C3F33;
+  --fg:#EEF4F1; --muted:#B4C7BF; --dim:#8DA79D; --ink:#1B1404;
+  --display:Unbounded, "Arial Black", system-ui, sans-serif;
+  --body:Manrope, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:18px;line-height:1.55}
+h1,h2,h3{text-wrap:balance}
+p,li{text-wrap:pretty}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(18px, env(safe-area-inset-left, 0px));padding-right:max(18px, env(safe-area-inset-right, 0px))}
+.brand{padding-block:26px 0;font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.03em;color:var(--mint)}
+
+.hero{padding-block:44px 36px;background:radial-gradient(600px 360px at 90% 0%,rgba(242,201,76,.22),transparent 70%)}
+.eyebrow{margin:0 0 14px;font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+h1{margin:0;font-family:var(--display);font-weight:700;font-size:clamp(30px,5.4vw,54px);line-height:1.06;letter-spacing:-.01em;
+  background:linear-gradient(180deg,#FFF3CC,var(--gold) 55%,var(--gold-deep));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{margin:18px 0 0;font-size:20px;color:var(--muted);max-width:640px}
+.facts{margin-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px}
+.fact{background:var(--card);border:1px solid var(--card-line);border-radius:18px;padding:16px 18px}
+.fact b{display:block;font-family:var(--display);font-size:17px;color:var(--gold-soft)}
+.fact span{font-size:15px;color:var(--muted)}
+
+.idea{padding-block:36px;background:var(--band);border-block:1px solid var(--line)}
+.idea h2{margin:0 0 14px;font-family:var(--display);font-size:clamp(22px,3vw,28px)}
+.idea p{margin:0;color:var(--muted)}
+.idea p+p{margin-top:10px}
+.idea b{color:var(--fg)}
+
+.road{padding-block:44px 20px}
+.road>h2{margin:0 0 28px;font-family:var(--display);font-size:clamp(24px,3.2vw,32px)}
+.stop{position:relative;display:flex;gap:20px;padding-bottom:30px}
+.stop:not(:last-child)::before{content:"";position:absolute;left:25px;top:56px;bottom:0;width:2px;background:linear-gradient(var(--gold-deep),var(--line))}
+.dot{flex:none;width:52px;height:52px;border-radius:50%;background:var(--gold-bg);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:19px;color:var(--gold-soft)}
+.body{flex:1 1 auto;min-width:0}
+.when{display:inline-block;margin:0 0 6px;background:var(--mint-bg);color:var(--mint);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.stop h3{margin:0;font-family:var(--display);font-size:clamp(19px,2.5vw,24px);line-height:1.2}
+.stop p{margin:8px 0 0;color:var(--muted)}
+.stop ul{margin:10px 0 0;padding-left:20px;color:var(--muted)}
+.stop li+li{margin-top:4px}
+.stop b{color:var(--fg)}
+
+.msg{margin-top:14px;background:var(--card);border:1px solid var(--card-line);border-radius:18px;overflow:hidden}
+.msg-h{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px 10px 18px;border-bottom:1px solid var(--card-line)}
+.msg-h span{font-size:14px;font-weight:700;color:var(--dim)}
+.msg pre{margin:0;padding:16px 18px;white-space:pre-wrap;overflow-wrap:break-word;font-family:var(--body);font-size:17px;line-height:1.5;color:var(--fg)}
+.copy{flex:none;min-height:40px;border:0;border-radius:12px;padding:8px 16px;background:var(--gold);color:var(--ink);font-family:var(--body);font-weight:700;font-size:15px;cursor:pointer}
+.copy:hover{background:var(--gold-soft)}
+.copy:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
+.copy.ok{background:var(--mint);color:var(--ink)}
+.ph{color:var(--gold-soft);font-weight:700}
+
+.faq{padding-block:40px;background:var(--band);border-block:1px solid var(--line)}
+.faq h2{margin:0 0 20px;font-family:var(--display);font-size:clamp(22px,3vw,28px)}
+.faq dl{margin:0;display:grid;gap:12px}
+.faq div{background:var(--card);border-radius:16px;padding:16px 20px}
+.faq dt{font-weight:700}
+.faq dd{margin:6px 0 0;color:var(--muted)}
+
+.rules{padding-block:40px 80px}
+.rules h2{margin:0 0 16px;font-family:var(--display);font-size:clamp(22px,3vw,28px)}
+.rules ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.rules li{background:var(--card);border-left:3px solid var(--gold);border-radius:12px;padding:12px 16px;color:var(--muted)}
+.rules b{color:var(--fg)}
+
+@media (max-width:560px){
+  .stop{gap:14px}.dot{width:42px;height:42px;font-size:16px}.stop:not(:last-child)::before{left:20px;top:46px}
+  .msg-h{flex-wrap:wrap}
+}
+mark{background:#5a4a12;color:#FFE9A8;border-radius:4px;padding:0 3px}
+.msg pre{max-height:400px;overflow:auto}
+.ck{list-style:none;margin:0;padding:0;display:grid;gap:8px}.ck label{display:flex;gap:12px;align-items:flex-start;background:var(--card);border-radius:12px;padding:12px 16px;color:var(--muted);cursor:pointer}.ck input{width:20px;height:20px;accent-color:#F2C94C;flex:none;margin-top:2px}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(4,32,26,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--bg)}
+.nav .wrap{display:flex;gap:10px;overflow-x:auto;padding-block:12px;scrollbar-width:none}
+.nav a{flex:none;min-height:44px;display:inline-flex;align-items:center;padding:10px 18px;border-radius:999px;border:1.5px solid var(--gold);color:var(--gold-soft);font-weight:700;font-size:15px;text-decoration:none;white-space:nowrap}
+.nav a:hover,.nav a:focus-visible{background:var(--gold);color:var(--ink);outline:none}
+.sec{scroll-margin-top:72px;padding-block:44px 10px;border-top:1px solid var(--line)}
+.sec>.wrap>h2{margin:0 0 6px;font-family:var(--display);font-size:clamp(24px,3.4vw,34px)}
+.sec>.wrap>p.d{margin:0 0 22px;color:var(--muted)}
+.sub-h{margin:26px 0 4px;font-family:var(--display);font-size:19px;color:var(--gold-soft)}
+.links{display:grid;gap:10px;margin-top:16px}.links div{background:var(--card);border:1px solid var(--card-line);border-radius:14px;padding:14px 18px;color:var(--muted)}.links b{color:var(--fg)}
+.tip{margin-top:14px;background:var(--band);border-left:3px solid var(--gold);border-radius:12px;padding:12px 16px;color:var(--muted)}.tip b{color:var(--fg)}
+.stop a{color:var(--gold-soft)}
+</style></head><body>
+<div class="wrap brand">HASH AI · День 1</div>
+<section class="hero"><div class="wrap"><p class="eyebrow">День 1 · тёплая база</p><h1>Сегодня: папка, первые сообщения и&nbsp;свой канал</h1><p class="sub">Шесть простых шагов. Все тексты копируются кнопкой.</p>
+<div class="facts"><div class="fact"><b>до 200</b><span>контактов в&nbsp;папку</span></div><div class="fact"><b>20–30</b><span>сообщений сегодня</span></div><div class="fact"><b>1 канал</b><span>копируешь за&nbsp;40&nbsp;минут</span></div></div></div></section>
+<nav class="nav" aria-label="Разделы"><div class="wrap"><a href="#org">Запись и календарь</a><a href="#plan">План</a><a href="#kanal">Свой канал</a><a href="#otchet">Отчёт</a></div></nav>
+<section class="sec" id="org"><div class="wrap"><h2>Сначала: запись и&nbsp;календарь</h2><div class="links"><div><b>Запись вводного эфира.</b> Если не&nbsp;смотрел, начни с&nbsp;неё.<br><a href="https://t.me/c/4457054316/34" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:10px 18px;border-radius:12px;background:var(--gold);color:var(--ink);font-weight:700;text-decoration:none">Смотреть запись</a></div><div><b>Google-календарь.</b> Скопируй себе: расписание внутри, эфиры не&nbsp;пропустишь.<br><a href="https://calendar.google.com/calendar/u/0?cid=NzhkZTAyMGQ3ZGE1MTgxNjI2MjYyMjMxYTdkMTJkZWY2MDZkNDVkNWJiOWMzZWM1YTk2ZDNhMGYwNTcxZjA4ZUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:10px 18px;border-radius:12px;border:1.5px solid var(--gold);color:var(--gold-soft);font-weight:700;text-decoration:none">Добавить календарь</a></div><div><b>Отчёт:</b> в&nbsp;комментарии под&nbsp;постом «Отчёт · День 1» в&nbsp;канале, до&nbsp;конца дня.</div></div></div></section><section class="sec" id="plan"><div class="wrap"><h2>План на&nbsp;сегодня</h2><p class="d">Шесть шагов по&nbsp;порядку. Начни с&nbsp;папки и&nbsp;первых сообщений, канал доделаешь, пока люди отвечают.</p><div class="stop"><div class="dot">1</div><div class="body"><p class="when">Шаг 1</p><h3>Создай папку в&nbsp;Telegram</h3><p>Настройки → «Папки с&nbsp;чатами» → «Создать папку». Назови, например, «Движение». Так все контакты и&nbsp;ответы будут в&nbsp;одном месте.</p></div></div><div class="stop"><div class="dot">2</div><div class="body"><p class="when">Шаг 2</p><h3>Собери туда контакты</h3><p>Добавь в&nbsp;папку <b>до&nbsp;200 человек</b>: знакомые, бывшие партнёры, клиенты, люди из&nbsp;бизнеса. Не&nbsp;решай за&nbsp;них, кому это интересно.</p></div></div><div class="stop"><div class="dot">3</div><div class="body"><p class="when">Шаг 3</p><h3>Напиши первое сообщение</h3><p>Главное сегодня: отправить. Не&nbsp;жди, пока будет готов канал. Человек ответил, и&nbsp;разговор пошёл.</p><p class="sub-h">Минимум: для&nbsp;всех</p><div class="msg"><div class="msg-h"><span>Просто привет</span><button class="copy" type="button">Скопировать</button></div><pre><mark>[Имя]</mark>, привет! 😊</pre></div><div class="msg"><div class="msg-h"><span>Привет и вопрос</span><button class="copy" type="button">Скопировать</button></div><pre><mark>[Имя]</mark>, привет! Как ты? Давно не общались 🙌</pre></div><div class="msg"><div class="msg-h"><span>Привет и интрига</span><button class="copy" type="button">Скопировать</button></div><pre><mark>[Имя]</mark>, привет! Есть к тебе одна идея, чуть позже запишу голосовое 🙌</pre></div><p class="sub-h">Смелее: если канал уже готов</p><div class="msg"><div class="msg-h"><span>Есть новости</span><button class="copy" type="button">Скопировать</button></div><pre><mark>[Имя]</mark>, привет! Есть классные новости, это точно нельзя пропустить 🔥
+
+Всё собрано в одном канале, зайди посмотри: <mark>[ссылка на приветствие]</mark>
+
+Сможешь глянуть сегодня?</pre></div><div class="msg"><div class="msg-h"><span>Выдели 15 минут</span><button class="copy" type="button">Скопировать</button></div><pre><mark>[Имя]</mark>, привет! У меня очень крутые новости. Выдели себе 15 минут, там короткие видео: <mark>[ссылка на приветствие]</mark>
+
+Сможешь посмотреть сегодня?</pre></div><p class="sub-h">Развёрнуто: личное сообщение</p><p>Тем, с&nbsp;кем есть контакт по&nbsp;бизнесу. Женщинам: «нашёл» → «нашла».</p><div class="msg"><div class="msg-h"><span>Личное сообщение</span><button class="copy" type="button">Скопировать</button></div><pre><mark>[Имя]</mark>, добрый день!
+
+Как ты знаешь, последнее время я развиваюсь в теме ИИ-агентов для продаж. Недавно нашёл сервис, который объединил в одном личном кабинете сразу всё. Это не просто нейросеть для текстов и видео, а целая экосистема.
+
+Из того, что внутри:
+
+🔹 Нейрокоманда сама находит нужных людей в Telegram, заводит с ними разговор и приводит к тебе только тех, кому реально интересно
+🔹 Поиск целевой аудитории под любую задачу
+🔹 Контент-завод: создаёт и ведёт контент сразу во всех соцсетях
+🔹 Единая CRM для работы с клиентами и продажами
+🔹 AI-инструменты, которые берут на себя рутину бизнеса
+
+Направление реально перспективное: клиенты всегда нужны и экспертам, и бизнесу, так что спрос никуда не денется.
+
+Как смотришь на то, чтобы запустить это для своего проекта и найти новых клиентов? А если интересно, то ещё и зарабатывать на этом.
+
+Предлагаю посмотреть запись интервью с командой проекта. Там разбор, как сервис приводит клиентов и как это может выглядеть в деньгах. Что скажешь?</pre></div><div class="tip"><b>Голосом ещё лучше.</b> Любой вариант можно записать голосовым: звучит живее, отвечают чаще.</div></div></div><div class="stop"><div class="dot">4</div><div class="body"><p class="when">Шаг 4</p><h3>Сделай свой канал</h3><p>Пока люди отвечают, собери канал. Это копирование: Ctrl+C, Ctrl+V. Инструкция и&nbsp;тексты постов в&nbsp;разделе <a href="#kanal">«Свой канал»</a>.</p></div></div><div class="stop"><div class="dot">5</div><div class="body"><p class="when">Шаг 5</p><h3>Ответившим отправь канал</h3><p>Человек ответил, вы&nbsp;немного пообщались. Дальше отправь ему канал.</p><div class="msg"><div class="msg-h"><span>Когда завязался диалог</span><button class="copy" type="button">Скопировать</button></div><pre>Слушай, у меня есть классная идея, и тебе в ней точно стоит разобраться. Всё собрано в одном канале, там короткие видео: <mark>[ссылка на приветствие]</mark>
+
+Сможешь посмотреть сегодня?</pre></div><div class="msg"><div class="msg-h"><span>После «да, посмотрю»</span><button class="copy" type="button">Скопировать</button></div><pre>Отлично! Посмотри, как будет время, и давай созвонимся на 15 минут. <mark>[день]</mark> удобно?</pre></div></div></div><div class="stop"><div class="dot">6</div><div class="body"><p class="when">Шаг 6</p><h3>Осознание и&nbsp;отчёт</h3><p>Вечером запиши, что понял за&nbsp;день, и&nbsp;сдай отчёт в&nbsp;комментарии под&nbsp;постом <b>«Отчёт · День 1»</b> в&nbsp;канале. Шаблон в&nbsp;разделе <a href="#otchet">«Отчёт»</a>.</p></div></div></div></section><section class="sec" id="kanal"><div class="wrap"><h2>Свой канал за&nbsp;40&nbsp;минут</h2><p class="d">Одна ссылка, по&nbsp;которой человек сам смотрит три интервью и&nbsp;кабинет, а&nbsp;потом пишет тебе. Пример: t.me/neurokomanda/4</p><div class="stop"><div class="dot">1</div><div class="body"><p class="when">Шаг</p><h3>Создай канал</h3><p>Telegram → «Новый канал» → публичный, короткий юзернейм. Название от&nbsp;твоего имени: «Имя Фамилия | ИИ-агенты для&nbsp;бизнеса». Аватар: твоё фото, как в&nbsp;личном аккаунте.</p><div class="msg"><div class="msg-h"><span>Описание канала (до 255 символов)</span><button class="copy" type="button">Скопировать</button></div><pre>Три коротких интервью о HASH-AI — сервисе, который сам находит клиентов в Telegram. Начните с закрепа 👇</pre></div></div></div><div class="stop"><div class="dot">2</div><div class="body"><p class="when">Шаг</p><h3>Выключи комментарии</h3><p>Управление каналом → «Обсуждение» → не&nbsp;привязывать группу. Вопросы должны приходить в&nbsp;личку.</p></div></div><div class="stop"><div class="dot">3</div><div class="body"><p class="when">Шаг</p><h3>Перешли видео</h3><p>Открой канал <b>t.me/neurokomanda</b>, выдели видеопосты → «Переслать» → свой канал → в&nbsp;меню отправки «Скрыть имя отправителя».</p></div></div><div class="stop"><div class="dot">4</div><div class="body"><p class="when">Шаг</p><h3>Замени подписи</h3><p>Тексты постов ниже: копируй кнопкой. Подсвеченное <mark>[в&nbsp;скобках]</mark> меняешь на&nbsp;своё.</p></div></div><div class="stop"><div class="dot">5</div><div class="body"><p class="when">Шаг</p><h3>Проверь реф-ссылку</h3><p>Открой её с&nbsp;другого аккаунта: бот должен показать твой реферальный код.</p></div></div><div class="stop"><div class="dot">6</div><div class="body"><p class="when">Шаг</p><h3>Приветствие публикуй последним</h3><p>Скопируй ссылки на&nbsp;посты 2–6 (правый клик → «Копировать ссылку»), вставь в&nbsp;приветствие и&nbsp;закрепи.</p></div></div><div class="stop"><div class="dot">7</div><div class="body"><p class="when">Шаг</p><h3>Раздавай ссылку на&nbsp;приветствие</h3><p>Не&nbsp;на&nbsp;канал, а&nbsp;на&nbsp;сам закреп (вида t.me/юзернейм/8): человек сразу попадает на&nbsp;навигацию.</p></div></div><p class="sub-h">Тексты постов</p><p style="color:var(--muted);margin:0 0 18px">Публикуй по&nbsp;порядку: посты 2–7, приветствие последним.</p><div class="stop"><div class="dot">1</div><div class="body"><p class="when">Пост 1 · закрепить</p><h3>Приветствие</h3><div class="msg"><div class="msg-h"><span>Текст поста</span><button class="copy" type="button">Скопировать</button></div><pre>Привет! Я <mark>[Имя]</mark>, уже <mark>[срок]</mark> занимаюсь <mark>[чем: ИИ-агенты, сетевой бизнес, своё дело]</mark>.
+
+Этот канал — короткая экскурсия по HASH-AI. Это сервис, где в одном личном кабинете собрано всё для привлечения клиентов: нейрокоманда, которая сама находит людей в Telegram и ведёт с ними диалог, контент-завод, CRM и AI-инструменты.
+
+Здесь нет ленты и ежедневных постов. Только то, что нужно, чтобы за вечер разобраться, подходит вам это или нет:
+
+▶️ Видео 1 — лидогенерация: как сервис сам находит клиентов <mark>[ссылка на пост 2]</mark>
+▶️ Видео 2 — контент-завод: контент во все соцсети без копирайтера <mark>[ссылка на пост 3]</mark>
+▶️ Видео 3 — партнёрская программа: как на этом зарабатывать <mark>[ссылка на пост 4]</mark>
+📊 Реальные цифры запуска в нашей команде <mark>[ссылка на пост 5]</mark>
+🎥 Разбор кейса: 130 заявок за месяц <mark>[ссылка на видео-разбор]</mark>
+🔑 Личный кабинет и бесплатный доступ на 10 дней <mark>[ссылка на пост 6]</mark>
+
+Смотрите в любом порядке. Если хотите что-то одно — начните с видео 3, там про деньги.
+
+После просмотра напишите мне <mark>[@ваш_ник]</mark> — созвонимся на 15–20 минут, отвечу на вопросы и покажу, с чего начать именно вам.</pre></div></div></div><div class="stop"><div class="dot">2</div><div class="body"><p class="when">Пост 2 · подпись к видео</p><h3>Видео 1: лидогенерация</h3><div class="msg"><div class="msg-h"><span>Текст поста</span><button class="copy" type="button">Скопировать</button></div><pre>▶️ Видео 1. Лидогенерация: ИИ-агенты находят клиентов в Telegram
+
+Клиенты нужны всем, но реклама дорожает, органика непредсказуема, а писать людям вручную нет ни времени, ни сил. В этом интервью разработчики HASH-AI показывают на экране, как это решается иначе.
+
+Вы увидите, как система за пару кликов собирает из чатов и каналов живую базу под ваш запрос. А потом ИИ-агенты сами знакомятся с людьми, отвечают на вопросы и передают вам только тех, кто сказал «да, интересно».
+
+Самое ценное — реальные переписки агентов и честный расчёт, сколько заявок это даёт. После просмотра вы поймёте, подойдёт ли это вашей нише.
+
+01:30 — Знакомство с разработчиками
+10:48 — Поиск по 150+ млн чатов и каналов
+13:00 — Как собрать живую, активную аудиторию
+14:20 — Демонстрация ЛидоРуба
+17:46 — Настройка агента: 7 вопросов вместо промптов
+19:46 — Реальные диалоги агента с клиентами
+25:28 — Дожим и автозапись на встречи
+28:45 — Сколько заявок даёт система
+32:19 — Примеры для разных ниш
+37:11 — Лидогенерация через сторис</pre></div></div></div><div class="stop"><div class="dot">3</div><div class="body"><p class="when">Пост 3 · подпись к видео</p><h3>Видео 2: контент-завод</h3><div class="msg"><div class="msg-h"><span>Текст поста</span><button class="copy" type="button">Скопировать</button></div><pre>▶️ Видео 2. Контент-завод: соцсети без съёмок и копирайтера
+
+Днём дела, вечером нет сил, а «завтра напишу» тянется неделями. Знакомо?
+
+В этом видео вы увидите, как контент-завод изучает вас и ваш продукт, смотрит, что сейчас набирает охваты в вашей нише, и сам составляет контент-план. Дальше — посты и ролики с вашим цифровым двойником и вашим голосом, которые выходят по расписанию сразу в нескольких соцсетях.
+
+Посмотрите живые примеры и попробуйте угадать, где человек, а где нейроаватар. И узнайте, как обычный ролик превращается в воронку, которая приводит заявки.
+
+04:18 — Как устроен контент-завод
+05:48 — Распаковка: система изучает вас и продукт
+07:23 — Анализ трендов и конкурентов
+10:17 — Демонстрация: от брифа до контент-плана
+11:52 — Автопубликация в соцсети
+12:17 — Цифровой двойник и клон голоса
+13:02 — Ролики, которые приводят заявки
+21:20 — Примеры роликов с нейроаватаром
+27:32 — Кейсы: Instagram и YouTube
+31:37 — Справится ли человек без техники
+36:02 — Поддержка и сопровождение</pre></div></div></div><div class="stop"><div class="dot">4</div><div class="body"><p class="when">Пост 4 · подпись к видео</p><h3>Видео 3: партнёрская программа</h3><div class="msg"><div class="msg-h"><span>Текст поста</span><button class="copy" type="button">Скопировать</button></div><pre>▶️ Видео 3. Партнёрская программа HASH-AI
+
+Если после первых двух видео появилась мысль «это нужно всем, кого я знаю», — это видео для вас.
+
+Разработчики рассказывают, как устроена партнёрская программа: за что платят и какие есть виды дохода — с личных рекомендаций, с работы команды и пассивный, с пополнений токенов. Без матриц и бинаров. Отдельно разобрано, как получать выплаты, если вы никогда не имели дела с криптовалютой.
+
+После просмотра вы поймёте, подходит ли вам этот формат — как основной бизнес, подработка или дополнение к тому, чем вы уже занимаетесь.
+
+Запись сделана до старта: проценты, тарифы и даты могли измениться — актуальные условия расскажу на созвоне.
+
+01:44 — Зачем компания запустила партнёрку
+03:58 — Выплаты: смарт-контракт и вывод в рублях
+06:05 — Сайт, бот и личный кабинет
+10:29 — Сервисы платформы
+12:49 — Тарифы и демо-доступ
+15:15 — Квалификации и доход с рекомендаций
+19:36 — Пассивный доход с пополнений токенов
+24:46 — Калькулятор дохода
+26:23 — Как стать партнёром</pre></div></div></div><div class="stop"><div class="dot">5</div><div class="body"><p class="when">Пост 5 · фото дашборда</p><h3>Кейс</h3><div class="msg"><div class="msg-h"><span>Текст поста</span><button class="copy" type="button">Скопировать</button></div><pre>📊 Кейс: первая неделя ЛидоРуба в нашей команде
+
+Делюсь живыми цифрами, а не обещаниями. Проект партнёра нашей команды, рассылка с 20.10, около 4 дней работы:
+
+• 206 человек получили первое сообщение от ИИ-агента
+• 52 ответили — каждый четвёртый
+• 12 сами попросили ссылку на демо или интервью — 5,8% от всех
+• ещё 22 человека в диалоге или у оператора
+
+Из завершённых диалогов агент сам довёл до заявки 40%.
+
+Честно о важном: результат сильно зависит от базы. В двух других проектах с теми же настройками результата не было. Поэтому на старте мы тестируем несколько баз и оставляем ту, что отвечает.
+
+Заявка здесь — человек, который сам попросил ссылку. Дальше с ним лично общается партнёр.
+
+Хотите прикинуть, как это может выглядеть в вашей нише? Напишите мне <mark>[@ваш_ник]</mark>.</pre></div></div></div><div class="stop"><div class="dot">6</div><div class="body"><p class="when">Сразу после поста 5</p><h3>Видео-разбор кейса</h3><div class="msg"><div class="msg-h"><span>Текст поста</span><button class="copy" type="button">Скопировать</button></div><pre>🎥 Разбор кейса: 130 заявок за месяц в сетевом
+
+Это не презентация, а живой разбор реального проекта. Маркетолог-продюсер Анна по шагам показывает, как настраивается ЛидоРуб, и открывает дашборд клиентки — сетевика с 20-летним стажем.
+
+Вы увидите, что заполнить перед запуском, как собрать активную аудиторию в Telegram и как агент за пять сообщений доводит человека от «я вас не знаю» до «расскажите подробнее». И услышите, что клиентка сказала через месяц.
+
+00:32 — ЛидоРуб в двух словах
+02:02 — Нужен ли контент-завод, если нужны только заявки
+02:44 — Почему деньги в тёплой базе
+04:47 — Настройка: бриф, первое сообщение, расписание
+07:27 — Промпт и дожимы
+08:18 — Как собрать активную аудиторию
+11:16 — Запуск за 2 недели или за 72 часа
+11:45 — Реальный проект: конверсия около 6%
+13:58 — Как агент ведёт диалог с сетевиком
+15:38 — Куда приходят заявки
+18:58 — 131 заявка за месяц
+19:39 — Отзыв клиентки</pre></div></div></div><div class="stop"><div class="dot">7</div><div class="body"><p class="when">Пост 6 · подпись к видео</p><h3>Личный кабинет и реф-ссылка</h3><div class="msg"><div class="msg-h"><span>Текст поста</span><button class="copy" type="button">Скопировать</button></div><pre>🔑 Личный кабинет HASH-AI
+
+Короткая экскурсия по кабинету: где что лежит и с чего начать. Видеосвязь без ограничений по времени, VPN, контент-завод, лидогенерация в Telegram и нейросети для текста, фото, видео и музыки — всё в одном окне.
+
+Попробуйте сами: по моей ссылке — бесплатный доступ на 10 дней и 10 000 токенов на нейроинструменты:
+👉 <mark>[ваша реф-ссылка на бота]</mark>
+
+В демо открыты личный кабинет и нейроинструменты. ЛидоРуб, контент-завод и CRM подключаются на годовом и безлимитном тарифах — какой подойдёт вам, разберём на созвоне.
+
+Напишите мне <mark>[@ваш_ник]</mark> слово «СОЗВОН».
+
+00:46 — Видеоконференции
+01:21 — VPN
+01:40 — Вебинарная комната
+02:03 — CRM с ИИ-агентами
+02:34 — Контент-завод
+03:29 — Лидогенерация: сторис и рассылки
+05:08 — Нейросети для текста
+05:50 — ИИ-ассистенты: маркетолог, наставник и другие
+07:29 — Фото, видео и музыка
+09:32 — Синтез речи
+10:25 — Файлы, финансы, партнёрка</pre></div></div></div><div class="stop"><div class="dot">8</div><div class="body"><p class="when">Пост 7</p><h3>Финальный: следующий шаг</h3><div class="msg"><div class="msg-h"><span>Текст поста</span><button class="copy" type="button">Скопировать</button></div><pre>Это последний пост в канале. Если вы дошли до него — значит, что-то откликнулось.
+
+Дальше три пути, и каждый нормальный:
+
+1️⃣ Посмотреть кабинет изнутри. 10 дней бесплатно и 10 000 токенов на нейросети: тексты, картинки, видео, ИИ-ассистенты, видеосвязь. ЛидоРуб в демо не входит — его покажу на созвоне.
+👉 <mark>[ваша реф-ссылка]</mark>
+
+2️⃣ Нужны клиенты для своего дела. Созвонимся на 15–20 минут, разберём вашу нишу, подберём тариф и вместе пройдём первые шаги запуска.
+
+3️⃣ Хотите на этом зарабатывать. Расскажу, как устроена партнёрка сейчас, помогу сделать первые шаги и поставлю в команду.
+
+А если пока не готовы — подскажите, что мешает принять решение прямо сейчас? Дорого, непонятно, нет времени, сомневаетесь в результате? Напишите как есть. Отвечу честно, даже если ответ будет «вам это сейчас не нужно».
+
+Напишите мне <mark>[@ваш_ник]</mark> цифру 1, 2, 3 — или свой вопрос.</pre></div></div></div><p class="sub-h">Чек-лист</p><ul class="ck"><li><label><input type=checkbox>Канал публичный, юзернейм короткий</label></li><li><label><input type=checkbox>Аватар и название твои, описание заполнено</label></li><li><label><input type=checkbox>Комментарии выключены</label></li><li><label><input type=checkbox>Видео пересланы без имени отправителя</label></li><li><label><input type=checkbox>Подписи заменены, в посте 5 свой кейс или кейс команды</label></li><li><label><input type=checkbox>В постах 6 и 7 твоя реф-ссылка, проверена с другого аккаунта</label></li><li><label><input type=checkbox>Приветствие со ссылками на посты 2–6 опубликовано и закреплено</label></li><li><label><input type=checkbox>Путь подписчика пройден с телефона</label></li></ul></div></section><section class="sec" id="otchet"><div class="wrap"><h2>Отчёт за&nbsp;день</h2><p class="d">Скопировал, заполнил, отправил в&nbsp;комментарии под&nbsp;постом «Отчёт · День 1». В&nbsp;«Что сработало» допиши своё осознание за&nbsp;день.</p><div class="msg"><div class="msg-h"><span>Отчёт</span><button class="copy" type="button">Скопировать</button></div><pre>📊 Отчёт | День __ из 14
+👤 Имя:
+
+✍️ Личные касания:
+🤖 Касания через Лидоруб:
+💬 Диалоги:
+🎥 Отправил видео:
+📞 Созвоны:
+✅ Регистрации / оплаты:
+
+💡 Что сработало:
+❓ Вопрос / где нужна помощь: </pre></div></div></section><div style="padding-bottom:70px"></div>
+<script>
+document.querySelectorAll('.copy').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var pre=btn.closest('.msg').querySelector('pre');
+    var text=pre.innerText;
+    function done(){btn.textContent='Скопировано';btn.classList.add('ok');setTimeout(function(){btn.textContent='Скопировать';btn.classList.remove('ok')},1800)}
+    function fallback(){var r=document.createRange();r.selectNodeContents(pre);var s=window.getSelection();s.removeAllRanges();s.addRange(r);try{document.execCommand('copy');done()}catch(e){btn.textContent='Выделено: Ctrl+C'}}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,fallback)}else{fallback()}
+  });
+});
+</script>
+</body></html>
